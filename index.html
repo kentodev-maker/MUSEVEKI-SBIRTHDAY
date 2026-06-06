@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Museveki 🎀</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="particles"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-bg-decor">
+    <div class="lock-orb lock-orb-1"></div>
+    <div class="lock-orb lock-orb-2"></div>
+  </div>
+  
+  <div class="lock-content-wrapper">
+    <!-- PORTRAIT WITH BOW -->
+    <div class="lock-portrait-container">
+      <div class="lock-portrait-bow"></div>
+      <div class="heart-particles-container" id="heart-particles"></div>
+      <img src="profile.jpg" alt="Museveki" class="lock-portrait">
+    </div>
+    
+    <!-- LOCK CARD -->
+    <div class="lock-card">
+      <div class="lock-hearts">💗</div>
+      <div class="lock-title">Something Special Awaits You</div>
+      <div class="lock-subtitle">Your Number one baby made this just for you.<br>Enter the secret to unlock your surprise 🎀</div>
+      <p> MSM NAJUA HUONANGI BUT PASS IKO HAPO CHINI</p>
+      <input type="text" id="password-input" placeholder="Enter password..." autocomplete="off" />
+      <button id="unlock-btn" onclick="tryUnlock()">✨ Unlock My Surprise</button>
+      <div id="pw-error">Hmm, that's not quite right 💫 Try again!</div>
+      <div class="lock-hint">Password: <strong>MUSEVEKI@20</strong> 🌸</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN SITE -->
+<div id="main-site">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-particles" id="hero-stars"></div>
+    <span class="balloon" style="left:4%;top:18%">🎈</span>
+    <span class="balloon" style="right:6%;top:12%;animation-delay:2s">🎀</span>
+    <span class="balloon" style="left:10%;bottom:22%;animation-delay:4s">🌸</span>
+    <span class="balloon" style="right:4%;bottom:28%;animation-delay:1s">✨</span>
+    <span class="balloon" style="left:45%;top:8%;animation-delay:3s;font-size:1.5rem">💗</span>
+    <div class="hero-badge">🎂 &nbsp; Happy Birthday, Queen</div>
+    <h1 class="hero-name">Museveki</h1>
+    <div class="hero-date">June 9th — The day the world got luckier ✨</div>
+    <p class="hero-tagline">To the most radiant, extraordinary soul I've ever had the privilege of loving — this entire page is yours, always.</p>
+  </section>
+
+  <!-- HERO IMAGE -->
+  <div class="hero-image-section">
+    <img src="image2.jpg" alt="Museveki" class="hero-image">
+  </div>
+
+  <!-- SECTIONS GRID -->
+  <div class="sections-grid">
+    <!-- FLOWERS SECTION -->
+    <div class="section-card flowers-card" onclick="openSection('flowers')">
+      <div class="section-icon">🌹</div>
+      <h3>My Flowers</h3>
+      <p>A gift for you</p>
+    </div>
+
+    <!-- CAKE SECTION -->
+    <div class="section-card cake-card" onclick="openSection('cake')">
+      <div class="section-icon">🎂</div>
+      <h3>Make a Wish</h3>
+      <p>Blow the candles</p>
+    </div>
+
+    <!-- LETTER SECTION -->
+    <div class="section-card letter-card" onclick="openSection('letter')">
+      <div class="section-icon">💌</div>
+      <h3>Love Letter</h3>
+      <p>From my heart</p>
+    </div>
+  </div>
+
+  <!-- FINAL WISH -->
+  <div class="wish-section">
+    <div class="hearts-row">💗 &nbsp; 💛 &nbsp; 🌸 &nbsp; ✨ &nbsp; 💗</div>
+    <div class="wish-title">
+      Happy Birthday,<br>
+      <span class="g">Museveki.</span>
+    </div>
+    <p class="wish-sub">You deserve the entire world — and I'll spend every single day trying to give it to you. 💛</p>
+    <button class="celebrate-btn" onclick="launchConfetti()">🎉 &nbsp; Celebrate Her!</button>
+  </div>
+
+</div>
+
+<!-- MODAL SECTIONS -->
+<!-- FLOWERS MODAL -->
+<div id="flowers-modal" class="modal">
+  <div class="modal-content flowers-modal-content">
+    <button class="close-btn" onclick="closeSection()">✕</button>
+    <h2>My Flowers For You 🌹</h2>
+    <img src="flowers.jpg" alt="Flowers" class="modal-image">
+    <p class="modal-text">Do you receive them? 💐</p>
+    <div class="modal-buttons">
+      <button class="btn btn-yes" onclick="receiveFlowers()">Yes, I do! 💗</button>
+      <button class="btn btn-no" id="no-btn" onclick="refuseFlowers()">No</button>
+    </div>
+    <div id="flowers-response" class="modal-response"></div>
+    <div id="song-player" style="display:none; margin-top:2rem; text-align:center;">
+      <p style="color:var(--gold-light); font-style:italic; margin-bottom:1rem;">This song reminds me of you 🎵</p>
+      <iframe width="100%" height="166" style="border-radius:12px;" src="https://www.youtube.com/embed/KKQl-pIRQMY" title="Photograph - Ed Sheeran" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- CAKE MODAL -->
+<div id="cake-modal" class="modal">
+  <div class="modal-content cake-modal-content">
+    <button class="close-btn" onclick="closeSection()">✕</button>
+    <h2>Make a Wish! 🎂</h2>
+    <div class="cake-container">
+      <div class="cake">
+        <div class="cake-layer layer-bottom"></div>
+        <div class="cake-layer layer-middle"></div>
+        <div class="cake-layer layer-top"></div>
+        <div class="candles">
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="countdown-timer" id="countdown-timer">Blow the candles in: <span id="timer-display">10</span>s</div>
+    <button class="btn btn-primary" onclick="blowCandles()">💨 Blow the Candles</button>
+    <div id="wish-response" class="modal-response"></div>
+  </div>
+</div>
+
+<!-- LETTER MODAL -->
+<div id="letter-modal" class="modal">
+  <div class="modal-content letter-modal-content">
+    <button class="close-btn" onclick="closeSection()">✕</button>
+    <div class="envelope-wrapper">
+      <div class="envelope-top"></div>
+      <div class="letter-content" style="animation: letterPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
+        <img src="image3.jpg" alt="Us" class="letter-image">
+        <h2>My Dearest Museveki 💌</h2>
+      <div class="letter-body">
+        <p>There are a million words I could write, and still none of them would be enough to describe what you mean to me. But today — <strong>your day</strong> — I'm going to try my best.</p>
+        <p>You are <strong>extraordinary</strong> in the truest sense of the word. Not because you're perfect (though honestly, you come pretty close 😊), but because of who you are at your core — the warmth you carry everywhere you go, the light you bring into every room, the way you make people feel genuinely seen and valued just by being present.</p>
+        <p>Meeting you <strong>changed everything</strong> for me. I didn't know love could feel this easy, this real, this joyful until you walked into my life. You've shown me what it means to have someone truly in your corner — laughing with you, growing with you, facing the world side by side with you has been the greatest adventure I've ever known.</p>
+        <p>You are <strong>brave</strong> — even on the days you don't feel it. You are <strong>beautiful</strong> — even on the days you don't see it. And you are <strong>deeply, unconditionally loved</strong> — especially on the ordinary days when nobody says it out loud.</p>
+        <p>On this birthday, I want you to know that I am the luckiest person alive. Not because of anything I did to deserve it, but simply because the universe decided you should be mine and I should be yours. I don't take that for granted. Not for a single day.</p>
+        <p>Happy birthday, baby. This year, like every year to come, I <strong>choose you</strong>. Over and over again. Always.</p>
+        <p style="margin-top: 2rem; font-style: italic;">— forever yours, with every piece of my heart 💛</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// CUSTOM CURSOR
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('button,a,.section-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
+
+// PARTICLES
+function createParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['#FF2D78','#FF6BA8','#F5C842','#D4A017','#FFE0EE','rgba(255,255,255,0.6)'];
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const sz = Math.random()*7+3;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*20}s;`;
+    container.appendChild(p);
+  }
+}
+createParticles();
+
+// HERO STARS
+function createStars() {
+  const container = document.getElementById('hero-stars');
+  for (let i = 0; i < 50; i++) {
+    const s = document.createElement('div');
+    s.classList.add('h-star');
+    const sz = Math.random()*3+1;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*5}s;`;
+    container.appendChild(s);
+  }
+}
+createStars();
+
+// HEART PARTICLES ABOVE PORTRAIT
+function createHeartParticles() {
+  const container = document.getElementById('heart-particles');
+  const hearts = ['💗', '💕', '💖', '💝', '❤️'];
+  
+  function spawnHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart-particle');
+    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    const randomLeft = Math.random() * 100;
+    const randomDelay = Math.random() * 0.5;
+    const randomDuration = 2.5 + Math.random() * 1;
+    heart.style.left = randomLeft + '%';
+    heart.style.animation = `heartFloat ${randomDuration}s ease-in forwards`;
+    heart.style.animationDelay = randomDelay + 's';
+    container.appendChild(heart);
+    
+    setTimeout(() => heart.remove(), randomDuration * 1000 + randomDelay * 1000);
+  }
+  
+  // Spawn hearts continuously
+  setInterval(spawnHeart, 400);
+}
+createHeartParticles();
+
+// UNLOCK
+function tryUnlock() {
+  const val = document.getElementById('password-input').value.trim().toUpperCase();
+  const input = document.getElementById('password-input');
+  const err = document.getElementById('pw-error');
+  if (val === 'MUSEVEKI@20') {
+    document.getElementById('lock-screen').classList.add('fade-out');
+    document.getElementById('main-site').classList.add('visible');
+    launchConfetti();
+    setTimeout(() => {
+      document.getElementById('lock-screen').style.display = 'none';
+      launchConfetti();
+    }, 800);
+  } else {
+    input.classList.add('error');
+    err.classList.add('show');
+    setTimeout(() => input.classList.remove('error'), 500);
+  }
+}
+document.getElementById('password-input').addEventListener('keypress', e => {
+  if (e.key === 'Enter') tryUnlock();
+  document.getElementById('pw-error').classList.remove('show');
+});
+
+// MODAL SECTIONS
+function openSection(section) {
+  document.getElementById(section + '-modal').classList.add('open');
+  if (section === 'cake') startCakeCountdown();
+}
+
+function closeSection() {
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('open'));
+}
+
+// FLOWERS
+function receiveFlowers() {
+  const responseDiv = document.getElementById('flowers-response');
+  responseDiv.textContent = '🎀 Yay! I\'m so happy you received them! They\'re for the most beautiful soul. 🌹💗';
+  responseDiv.style.color = 'var(--gold-light)';
+  
+  // Show song player
+  setTimeout(() => {
+    document.getElementById('song-player').style.display = 'block';
+    launchConfetti();
+  }, 500);
+}
+
+function refuseFlowers() {
+  const noBtn = document.getElementById('no-btn');
+  const randomX = (Math.random() - 0.5) * 200;
+  const randomY = (Math.random() - 0.5) * 200;
+  noBtn.style.position = 'relative';
+  noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+  
+  const responseDiv = document.getElementById('flowers-response');
+  responseDiv.textContent = '😭 You have to! I spent my whole night making them just for you...';
+  responseDiv.style.color = 'var(--pink-light)';
+}
+
+// CAKE COUNTDOWN
+let cakeTimer;
+function startCakeCountdown() {
+  let timeLeft = 10;
+  document.getElementById('timer-display').textContent = timeLeft;
+  
+  cakeTimer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer-display').textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(cakeTimer);
+      autoBlowCandles();
+    }
+  }, 1000);
+}
+
+function blowCandles() {
+  clearInterval(cakeTimer);
+  autoBlowCandles();
+}
+
+function autoBlowCandles() {
+  document.querySelectorAll('.flame').forEach(flame => {
+    flame.style.opacity = '0';
+  });
+  
+  const responseDiv = document.getElementById('wish-response');
+  responseDiv.innerHTML = '🎉 Make a wish baby! You deserve all the happiness in the world! 💫✨<br><p style="margin-top: 1rem; font-size: 0.9rem;">🎀 Your wish is already coming true just by you being you. 💛</p>';
+  responseDiv.style.color = 'var(--gold-light)';
+  
+  // Launch celebration
+  launchConfetti();
+  
+  // Add sparkle effects around the cake
+  setTimeout(() => {
+    launchConfetti();
+  }, 800);
+}
+
+// LIGHTBOX
+function openLightbox(card) {
+  const img = card.querySelector('img');
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// CONFETTI
+function launchConfetti() {
+  const colors = ['#FF2D78','#FF6BA8','#F5C842','#D4A017','#FFE0EE','#ffffff','#FF99CC','#FFD700'];
+  for (let i = 0; i < 100; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.classList.add('confetti-piece');
+      c.style.left = Math.random()*100 + '%';
+      c.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+      c.style.width = Math.random()*10+5 + 'px';
+      c.style.height = Math.random()*10+5 + 'px';
+      c.style.setProperty('--drift', (Math.random()-0.5)*200+'px');
+      c.style.animationDuration = (Math.random()*3+2) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }, i*25);
+  }
+}
+
+// SCROLL ANIMATIONS
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.style.opacity = '1';
+  });
+}, {threshold: 0.08});
+document.querySelectorAll('.section-card').forEach((el,i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = `opacity 0.7s ease ${i*0.06}s, transform 0.7s ease ${i*0.06}s`;
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
