@@ -93,6 +93,35 @@
     </div>
   </div>
 
+  <!-- AGE COUNTER SECTION -->
+  <div class="age-counter-section">
+    <div class="age-counter-container">
+      <h2 class="age-title">You've Been Blessing This Earth For 🌍</h2>
+      <div class="age-display">
+        <div class="age-box">
+          <div class="age-number" id="days-count">0</div>
+          <div class="age-label">Days</div>
+        </div>
+        <div class="age-separator">:</div>
+        <div class="age-box">
+          <div class="age-number" id="hours-count">0</div>
+          <div class="age-label">Hours</div>
+        </div>
+        <div class="age-separator">:</div>
+        <div class="age-box">
+          <div class="age-number" id="minutes-count">0</div>
+          <div class="age-label">Minutes</div>
+        </div>
+        <div class="age-separator">:</div>
+        <div class="age-box">
+          <div class="age-number" id="seconds-count">0</div>
+          <div class="age-label">Seconds</div>
+        </div>
+      </div>
+      <p class="age-subtitle">✨ And counting every precious moment 💛</p>
+    </div>
+  </div>
+
   <!-- FINAL WISH -->
   <div class="wish-section">
     <div class="hearts-row">💗 &nbsp; 💛 &nbsp; 🌸 &nbsp; ✨ &nbsp; 💗</div>
@@ -155,11 +184,22 @@
 <div id="letter-modal" class="modal">
   <div class="modal-content letter-modal-content">
     <button class="close-btn" onclick="closeSection()">✕</button>
-    <div class="envelope-wrapper">
-      <div class="envelope-top"></div>
-      <div class="letter-content" style="animation: letterPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
-        <img src="image3.jpg" alt="Us" class="letter-image">
-        <h2>My Dearest Museveki 💌</h2>
+    
+    <!-- ENVELOPE (clickable to open) -->
+    <div class="envelope-container" id="envelope-container" onclick="openEnvelope()">
+      <div class="envelope">
+        <div class="envelope-flap"></div>
+        <div class="envelope-body">
+          <div class="envelope-heart">💌</div>
+          <p class="envelope-text">Open Me 💛</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- LETTER CONTENT (hidden until envelope opened) -->
+    <div class="letter-content" id="letter-content">
+      <img src="image3.jpg" alt="Us" class="letter-image">
+      <h2>My Dearest Museveki 💌</h2>
       <div class="letter-body">
         <p>There are a million words I could write, and still none of them would be enough to describe what you mean to me. But today — <strong>your day</strong> — I'm going to try my best.</p>
         <p>You are <strong>extraordinary</strong> in the truest sense of the word. Not because you're perfect (though honestly, you come pretty close 😊), but because of who you are at your core — the warmth you carry everywhere you go, the light you bring into every room, the way you make people feel genuinely seen and valued just by being present.</p>
@@ -169,7 +209,6 @@
         <p>Happy birthday, baby. This year, like every year to come, I <strong>choose you</strong>. Over and over again. Always.</p>
         <p style="margin-top: 2rem; font-style: italic;">— forever yours, with every piece of my heart 💛</p>
       </div>
-    </div>
     </div>
   </div>
 </div>
@@ -270,6 +309,29 @@ function openSection(section) {
 
 function closeSection() {
   document.querySelectorAll('.modal').forEach(m => m.classList.remove('open'));
+  // Stop cake celebration if modal is closed
+  clearInterval(cakeTimer);
+}
+
+// ENVELOPE OPENING ANIMATION
+function openEnvelope() {
+  const envelope = document.querySelector('.envelope');
+  const envelopeContainer = document.getElementById('envelope-container');
+  const letterContent = document.getElementById('letter-content');
+  
+  // Add opened class to envelope for flap animation
+  envelope.classList.add('opened');
+  
+  // Hide envelope container after animation
+  setTimeout(() => {
+    envelopeContainer.classList.add('opened');
+  }, 500);
+  
+  // Show letter content with animation
+  setTimeout(() => {
+    letterContent.classList.add('visible');
+    launchConfetti();
+  }, 600);
 }
 
 // FLOWERS
@@ -300,7 +362,7 @@ function refuseFlowers() {
 // CAKE COUNTDOWN
 let cakeTimer;
 function startCakeCountdown() {
-  let timeLeft = 10;
+  let timeLeft = 5;
   document.getElementById('timer-display').textContent = timeLeft;
   
   cakeTimer = setInterval(() => {
@@ -367,6 +429,32 @@ function launchConfetti() {
     }, i*25);
   }
 }
+
+// AGE COUNTER - LIVE UPDATE
+function updateAgeCounter() {
+  // Birth date: June 9, 2006
+  const birthDate = new Date(2006, 5, 9); // Month is 0-indexed, so 5 = June
+  const now = new Date();
+  
+  // Calculate total time alive
+  const aliveTime = now - birthDate;
+  
+  // Convert to days, hours, minutes, seconds
+  const days = Math.floor(aliveTime / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((aliveTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((aliveTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((aliveTime % (1000 * 60)) / 1000);
+  
+  // Update DOM
+  document.getElementById('days-count').textContent = days.toString().padStart(4, '0');
+  document.getElementById('hours-count').textContent = hours.toString().padStart(2, '0');
+  document.getElementById('minutes-count').textContent = minutes.toString().padStart(2, '0');
+  document.getElementById('seconds-count').textContent = seconds.toString().padStart(2, '0');
+}
+
+// Initialize and update every second
+updateAgeCounter();
+setInterval(updateAgeCounter, 1000);
 
 // SCROLL ANIMATIONS
 const observer = new IntersectionObserver(entries => {
