@@ -389,13 +389,8 @@ function autoBlowCandles() {
   responseDiv.innerHTML = '🎉 Make a wish baby! You deserve all the happiness in the world! 💫✨<br><p style="margin-top: 1rem; font-size: 0.9rem;">🎀 Your wish is already coming true just by you being you. 💛</p>';
   responseDiv.style.color = 'var(--gold-light)';
   
-  // Launch celebration
-  launchConfetti();
-  
-  // Add sparkle effects around the cake
-  setTimeout(() => {
-    launchConfetti();
-  }, 800);
+  // Launch fireworks celebration
+  launchFireworks();
 }
 
 // LIGHTBOX
@@ -427,6 +422,58 @@ function launchConfetti() {
       document.body.appendChild(c);
       setTimeout(() => c.remove(), 5000);
     }, i*25);
+  }
+}
+
+// FIREWORKS
+function launchFireworks() {
+  const colors = ['#FF2D78','#FF6BA8','#F5C842','#D4A017','#FFD700','#FF99CC','#ffffff'];
+  const numRockets = 8;
+  
+  for (let rocket = 0; rocket < numRockets; rocket++) {
+    setTimeout(() => {
+      // Random x position across the screen
+      const xPos = Math.random() * 100;
+      
+      // Create rocket
+      const rocketEl = document.createElement('div');
+      rocketEl.classList.add('firework-rocket');
+      rocketEl.style.left = xPos + '%';
+      rocketEl.style.bottom = '-30px';
+      rocketEl.style.width = '8px';
+      rocketEl.style.height = '15px';
+      rocketEl.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      document.body.appendChild(rocketEl);
+      
+      // Rocket travels up and bursts at 50vh
+      setTimeout(() => {
+        rocketEl.remove();
+        
+        // Burst into particles at 50vh
+        const numBurstParticles = 50;
+        for (let i = 0; i < numBurstParticles; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('firework-burst-particle');
+          
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          const size = Math.random() * 6 + 2;
+          const angle = (i / numBurstParticles) * Math.PI * 2;
+          const velocity = Math.random() * 8 + 3;
+          
+          particle.style.left = xPos + '%';
+          particle.style.bottom = '50vh';
+          particle.style.width = size + 'px';
+          particle.style.height = size + 'px';
+          particle.style.backgroundColor = color;
+          particle.style.setProperty('--bx', Math.cos(angle) * velocity * 100 + 'px');
+          particle.style.setProperty('--by', Math.sin(angle) * velocity * 100 + 'px');
+          particle.style.animationDuration = (Math.random() * 1.5 + 1.2) + 's';
+          
+          document.body.appendChild(particle);
+          setTimeout(() => particle.remove(), 2500);
+        }
+      }, 1200);
+    }, rocket * 250);
   }
 }
 
